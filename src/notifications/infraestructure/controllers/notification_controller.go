@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-
+"mi-notificacion/src/notifications/infraestructure/rabbitmq"
 	"mi-notificacion/src/notifications/application"
 	"mi-notificacion/src/notifications/domain/entities"
 
@@ -22,6 +22,7 @@ func NotificationController(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to send message to WebSocket server"})
 		return
 	}
+	rabbitmq.PublishOrderPaymentStatus(notification)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Notification received and sent to WebSocket"})
 }
